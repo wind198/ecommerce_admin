@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "ecommerce_be"
+		},
+		{
+			"path": "emcommerce-fe"
+		}
+	],
+	"settings": {
+		"typescript.tsdk": "emcommerce-fe\\node_modules\\typescript\\lib"
+	}
+}
