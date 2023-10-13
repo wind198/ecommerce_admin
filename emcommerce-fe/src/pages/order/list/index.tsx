@@ -12,22 +12,8 @@ import {
 import { Stack } from '@mui/material';
 
 export default function OrderList() {
-  const postFilters = [
-    <TextInput label="Search" source="q" alwaysOn />,
-    <TextInput label="Title" source="title" defaultValue="Hello, World!" />,
-  ];
-
-  const ListToolbar = () => (
-    <Stack direction="row" justifyContent="space-between">
-      <FilterForm filters={postFilters} />
-      <div>
-        <FilterButton filters={postFilters} />
-      </div>
-    </Stack>
-  );
   return (
     <List>
-      <ListToolbar />
       <Datagrid>
         <DateField source="createdAt" />
         <TextField source="customerFullName" />

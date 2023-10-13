@@ -55,3 +55,20 @@ export const subtract2List = <T>(prevList: T[], currentList: T[], indentityFun: 
     itemsKept,
   };
 };
+
+export const IsNumberString = (value: string): boolean => {
+  if (value.includes('.')) {
+    const [integerPart, decimalPart] = value.split('.');
+    if (!integerPart && !decimalPart) {
+      return false;
+    }
+    if (integerPart.match(/-?\d+/) || decimalPart.match(/\d+/)) {
+      return true;
+    }
+    return false;
+  }
+  if (value.match(/-?\d+/)) {
+    return true;
+  }
+  return false;
+};

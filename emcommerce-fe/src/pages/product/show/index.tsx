@@ -1,4 +1,3 @@
-import React from 'react';
 import { DateField, ImageField, ReferenceField, Show, SimpleShowLayout, TextField } from 'react-admin';
 
 export default function ProductShow() {

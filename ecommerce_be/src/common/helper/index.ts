@@ -1,10 +1,25 @@
 import { differenceBy, isEmpty } from 'lodash';
-import { IDataFilter, IDataFilterOperator } from '../types/data-filter';
+import { IDataFilter, IDataFilterOperator, IFilterOperator } from '../types/data-filter';
 import { Aggregate, FilterQuery, PipelineStage, Types } from 'mongoose';
 import { IImage } from '../types/image';
 import { unlink } from 'fs/promises';
 import { NotFoundException } from '@nestjs/common';
 import { basename, resolve } from 'path';
+import { INumberString } from '../types/number-string';
+
+export const buildRegexThatMatchString = (input: string, allowArbitraryContentBetweenTokens?: boolean) => {
+  const escapeCharacterRegex = /[-\/\\^$*+?.()|[\]{}]/g;
+  if (!allowArbitraryContentBetweenTokens) {
+    return new RegExp(input.replace(escapeCharacterRegex, '\\$&'), 'i');
+  }
+  return new RegExp(
+    input
+      .split(/\s+|[_-]/)
+      .map((i) => i.replace(escapeCharacterRegex, '\\$&'))
+      .join('.*'),
+    'i',
+  );
+};
 
 export const generateMatchStageFromDataFilter = (
   dataFilter: IDataFilter,
@@ -35,7 +50,17 @@ export const generateMatchStageFromDataFilter = (
         };
       }
     } else {
-      filterQuery[fieldName] = dataFilter[fieldName] as IDataFilterOperator;
+      const commonFilterObj = dataFilter[fieldName] as IDataFilterOperator;
+      const augmentedCommonFilterObj = Object.fromEntries(
+        Object.entries(commonFilterObj).map(([k, v]: [IFilterOperator, INumberString]) => {
+          if (k !== '$regex') {
+            return [k, v];
+          }
+          return ['$regex', buildRegexThatMatchString(v.toString())];
+        }),
+      );
+
+      filterQuery[fieldName] = augmentedCommonFilterObj;
     }
   }
   const stage: PipelineStage = {

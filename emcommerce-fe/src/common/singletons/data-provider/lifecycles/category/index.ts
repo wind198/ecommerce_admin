@@ -1,7 +1,7 @@
 import { CreateParams, ResourceCallbacks, UpdateParams } from 'react-admin';
 import { fetchBlobFromURL, subtract2List } from '../../../../helpers';
 import { axiosClient } from '../../../axios';
-import { IHasId, IImage } from '../../../../types';
+import { IHasId, IImage, INumberString } from '../../../../types';
 import { ICreateCategory, IUpdateCategory } from '../../../../../pages/category/types';
 
 export const CategoryLifecycle: ResourceCallbacks = {
@@ -105,5 +105,18 @@ export const CategoryLifecycle: ResourceCallbacks = {
       data: { ...otherData, images: newImageOutput, icon: iconOutput, ...(!iconOutput && { removeIcon: true }) },
       previousData: params.previousData,
     };
+  },
+
+  async beforeGetList(params) {
+    const { filter, ...o } = params;
+    const augmentedFilter = Object.fromEntries(
+      Object.entries(filter).map(([k, v]: any) => {
+        if (k === 'name') {
+          return [k, { $regex: v }];
+        }
+        return [k, v];
+      }),
+    );
+    return { ...o, filter: augmentedFilter };
   },
 };

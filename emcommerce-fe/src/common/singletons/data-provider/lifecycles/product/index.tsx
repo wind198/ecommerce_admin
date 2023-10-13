@@ -6,6 +6,22 @@ import { ICreateProduct, IUpdateProduct } from '../../../../../pages/product/typ
 
 export const ProductLifecycle: ResourceCallbacks = {
   resource: 'product',
+  async beforeGetList(params) {
+    const { filter, ...o } = params;
+    const augmentedFilter = Object.fromEntries(
+      Object.entries(filter).map(([k, v]: any) => {
+        if (k === 'name') {
+          return [k, { $regex: v }];
+        }
+        if (k === 'price') {
+          const [from, to] = v.split(',');
+          return [k, { ...(from && { $gte: parseFloat(from) }), ...(to && { $lte: parseFloat(to) }) }];
+        }
+        return [k, v];
+      }),
+    );
+    return { ...o, filter: augmentedFilter };
+  },
   async beforeCreate(params: CreateParams<ICreateProduct>) {
     const {
       data: { images = [], ...otherData },

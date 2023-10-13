@@ -1,5 +1,5 @@
 import { INumberString } from './number-string';
-export const FilterOperatorList = ['$eq', '$gt', '$lt', '$gte', '$lte'] as const;
+export const FilterOperatorList = ['$eq', '$gt', '$lt', '$gte', '$lte', '$regex'] as const;
 
 export type IFilterOperator = (typeof FilterOperatorList)[number];
 

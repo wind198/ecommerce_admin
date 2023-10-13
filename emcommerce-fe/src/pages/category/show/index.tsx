@@ -1,6 +1,5 @@
 import React from 'react';
-import { DateField, ImageField, ReferenceField, Show, SimpleShowLayout, TextField } from 'react-admin';
-import AugmentedImageField from '../../../components/AugmentedImageField';
+import { DateField, ImageField, Show, SimpleShowLayout, TextField } from 'react-admin';
 
 export default function CategoryShow() {
   return (

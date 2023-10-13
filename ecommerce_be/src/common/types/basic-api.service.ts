@@ -1,6 +1,7 @@
 import { Model, PipelineStage } from 'mongoose';
 import { ListPagingSortingFilteringDto } from '../dtos/list-paging-sorting-filtering.dto';
 import { generateMatchStageFromDataFilter } from '../helper';
+import { Logger } from '@nestjs/common';
 
 export class BasicApiService<T, TCreateDto, TUpdateDto> {
   model: Model<T>;
@@ -43,7 +44,11 @@ export class BasicApiService<T, TCreateDto, TUpdateDto> {
 
   async findListPaging(body: ListPagingSortingFilteringDto, additionalPipelineStages: PipelineStage[] = []) {
     const { pagination, sort, filter } = body;
-    const { field = 'createdAt', order = 'ASC' } = sort ?? {};
+    let { field = 'createdAt' } = sort ?? {};
+    const { order = 'ASC' } = sort ?? {};
+    if (field === 'id') {
+      field = '_id';
+    }
 
     const { page, perPage } = pagination;
 

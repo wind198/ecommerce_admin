@@ -1,21 +1,10 @@
-import React, { forwardRef } from 'react';
-import { useMemo } from 'react';
-import { ForwardedRef } from 'react';
-import {
-  Datagrid,
-  DateField,
-  EditButton,
-  ImageField,
-  ImageFieldProps,
-  List,
-  TextField,
-  useRecordContext,
-} from 'react-admin';
-import AugmentedImageField from '../../../components/AugmentedImageField';
+import { Datagrid, DateField, EditButton, ImageField, List, TextField, TextInput } from 'react-admin';
+
+const categoryFilters = [<TextInput alwaysOn={true} label="Name" key={'name'} source="name"></TextInput>];
 
 export default function CategoryList() {
   return (
-    <List>
+    <List filters={categoryFilters}>
       <Datagrid rowClick="show">
         <TextField source="id" />
         <TextField source="name" />
