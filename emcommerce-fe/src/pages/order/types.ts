@@ -1,4 +1,4 @@
-import { IHasId, ITimeStamp } from '../../common/types';
+import { IHasId, IHas_Id, ITimeStamp } from '../../common/types';
 
 export type IOrderCustomerInfo = {
   firstName: string;
@@ -8,7 +8,7 @@ export type IOrderCustomerInfo = {
   addess: string;
 };
 
-export type IOrderProductInfo = { categoryId: string; productId: string; quantity: number; price: number };
+export type IOrderProductInfo = IHas_Id & { categoryId: string; productId: string; quantity: number; price: number };
 
 export interface IOrderCoreField {
   products: Array<IOrderProductInfo>;

@@ -25,6 +25,8 @@ export class OrderProductInfo implements IOrderProductInfo {
 
   @Prop({ required: true, index: true }) productId: string;
 
+  @Prop({ required: true, index: true }) name: string;
+
   @Prop({ required: true }) quantity: number;
 
   @Prop({ required: true }) price: number;

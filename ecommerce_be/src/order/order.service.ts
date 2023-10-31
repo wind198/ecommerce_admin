@@ -25,19 +25,22 @@ export class OrderService extends BasicApiService<Order, CreateOrderDto, UpdateO
 
   async generateProductsForMockOrder() {
     const products = await this.productService.findAll();
-    const cateogries = await this.categoryService.findAll();
-
     return Array(faker.number.int({ min: 1, max: 10 }))
       .fill(0)
-      .map(
-        () =>
-          ({
-            categoryId: getRandomItem(cateogries)._id.toString(),
-            productId: getRandomItem(products)._id.toString(),
-            price: faker.number.int({ min: 1, max: 100 }),
-            quantity: faker.number.int({ min: 1, max: 20 }),
-          }) as IOrderProductInfo,
-      );
+      .map(() => {
+        const randomProduct = getRandomItem(products);
+        if (!randomProduct) {
+          return;
+        }
+        return {
+          categoryId: randomProduct.category._id.toString(),
+          productId: randomProduct._id.toString(),
+          name: randomProduct.name,
+          price: faker.number.int({ min: 1, max: 100 }),
+          quantity: faker.number.int({ min: 1, max: 20 }),
+        };
+      })
+      .filter(Boolean);
   }
 
   async generateMockOrder() {

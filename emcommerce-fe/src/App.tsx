@@ -9,6 +9,7 @@ import ProductEdit from './pages/product/edit';
 import ProductShow from './pages/product/show';
 import ProductCreate from './pages/product/create';
 import OrderList from './pages/order/list';
+import OrderShow from './pages/order/show';
 
 export const App = () => (
   <Admin dataProvider={RestDataProvider}>
@@ -34,6 +35,10 @@ export const App = () => (
       recordRepresentation={'id'}
       name="order"
       list={OrderList}
+      show={OrderShow}
+      create={EditGuesser}
+      edit={EditGuesser}
+      hasCreate
     ></Resource>
   </Admin>
 );

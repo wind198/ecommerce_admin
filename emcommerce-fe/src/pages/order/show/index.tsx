@@ -1,10 +1,10 @@
-import { Datagrid, DateField, List, NumberField, TextField } from 'react-admin';
-import OrderDetail from '../show/order-detail';
+import { DateField, NumberField, Show, SimpleShowLayout, TextField } from 'react-admin';
+import OrderDetail from './order-detail';
 
-export default function OrderList() {
+export default function OrderShow() {
   return (
-    <List>
-      <Datagrid rowClick="show">
+    <Show>
+      <SimpleShowLayout>
         <DateField source="createdAt" />
         <TextField source="customerFullName" />
         <TextField source="customer.email" />
@@ -19,7 +19,8 @@ export default function OrderList() {
           }}
         />
         <NumberField source="totalItems" />
-      </Datagrid>
-    </List>
+        <OrderDetail />
+      </SimpleShowLayout>
+    </Show>
   );
 }
